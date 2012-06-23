@@ -1,0 +1,2 @@
+This directory contains code for parsing the GTP protocol.
+It is "generic" because it does nothing go specific.
