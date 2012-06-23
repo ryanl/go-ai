@@ -176,7 +176,7 @@ def recursive_ls(root_dir, ret=[]):
 # This is the clever bit, and the bit that may cause problems (it may
 # try to be too clever and if part of your code doesn't compile it likes
 # to look anywhere it can to find the functions)
-def build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler_hash):
+def build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler_hash, libs):
     bin_path = "bin/" + target + bin_suffix
 
     print ("")
@@ -202,7 +202,7 @@ def build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler
     for source_cpp in q:
         cmd.append(os.path.relpath(object_file_for_cpp(source_cpp, compiler_hash)))
 
-    cmd += ["-o", bin_path]
+    cmd += ["-o", bin_path] + libs
     #for l in libraries.values():
     #    if l != "": cmd.append(l)
 
@@ -219,7 +219,7 @@ def build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler
         return True # successful
 
 
-def run_build(targets, chosen_targets, compiler, bin_suffix, compiler_hash):
+def run_build(targets, chosen_targets, compiler, bin_suffix, compiler_hash, libs):
     try:
         os.mkdir(".build");
     except OSError:
@@ -248,5 +248,5 @@ def run_build(targets, chosen_targets, compiler, bin_suffix, compiler_hash):
             sys.exit(1)
         else:
             cpp_path = targets[target]
-            build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler_hash)
+            build_dependencies_and_link(target, cpp_path, compiler, bin_suffix, compiler_hash, libs)
 

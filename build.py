@@ -41,21 +41,6 @@ from build_common import *
 src_folder = mypath + "/src/"
 include_folder = mypath + "/include/"
 
-def increase_build_number():
-    global build_number
-    f = open(src_folder + "build_number", "r")
-    build_number = int(f.read())
-    f.close()
-
-    build_number += 1
-
-    f = open(src_folder + "build_number", "w")
-    f.write(str(build_number))
-    f.close()
-
-
-increase_build_number()
-
 os.utime(src_folder + "interface_gtp/gtp_main.cpp", None) # touch this file so build # is updated
 
 targets = {
@@ -101,7 +86,7 @@ ai_options = {
 
     "OPT_BITARRAY_FOR_PATTERNS"  : True,
     "BOOST_THREAD"               : True,
-    "OPT_USE_NEW_ADS"             : True,
+    "OPT_USE_NEW_ADS"            : True,
     "OPT_USE_IMPROVED_BITSET"    : True,
     "USE_BOOST_THREAD"           : True,
 
@@ -124,15 +109,12 @@ gxx_debug_compiler = [
     "-pipe",
     "-march=native",
     "-Wall", "-Wextra",
-#    "-lboost_thread-mt",
-    "-lboot_thread",
     "-I" + src_folder,
     "-I" + include_folder,
 ]
 
 gxx_compiler = [
     "g++",
-#    "-std=c++0x",
     "-fomit-frame-pointer",                           # frees up a register but hinders debugging
     "-O3",                                            # produces slightly faster code than -O3 on my PC
     "-pipe",
@@ -143,22 +125,15 @@ gxx_compiler = [
     #"-mno-sse4a",
     #"-mno-popcnt", #popcnt confuses valgrind
     "-mpopcnt",
-    #"-Wextra",
-    #"-g",
-
-    #"--coverage",
-
     "-ffast-math", "-fsingle-precision-constant",    # small speed boost (measured as 3-4%)
-    #"-ffinite-math-only",
 
-    "-lpthread",
     #"-latomic_ops",
-    "-lboost_thread-mt",
     "-I" + src_folder,
     "-I" + include_folder,
 ]
 
 compiler = gxx_compiler
+libs = ["-lpthread", "-lboost_thread"]
 
 allopts = ""
 for opt in ai_options.keys():
@@ -177,7 +152,6 @@ m = md5.new()
 m.update(" ".join(compiler))
 compiler_hash = m.hexdigest()[:16] # used to group build files by compiler options
 
-compiler.append("-DBUILD_NUM=\"" + str(build_number) + "\"");
 compiler.append("-DALLOPTS=\"" + allopts + "\"")
 
 if len(sys.argv) == 1:
@@ -194,5 +168,5 @@ print ("Ryan's build tool!")
 print ("================================================================")
 
 
-run_build(targets, chosen_targets, compiler + ["-DOPT_BOARDSIZE=9"], "", compiler_hash + "-9")
+run_build(targets, chosen_targets, compiler + ["-DOPT_BOARDSIZE=9"], "", compiler_hash + "-9", libs)
 

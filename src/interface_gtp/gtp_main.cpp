@@ -9,11 +9,8 @@
 using namespace boost::assign; // bring 'operator+=()' into scope
 
 int main(int argc, char* argv[]) {
-    // BUILD_NUM is the build number which increments every time build.py is run
 
-    std::string build_id = "v" BUILD_NUM;
-
-    GTPParser p("RyanBot", build_id);
+    GTPParser p("RyanBot", "2012");
 
     // ALLOPTS is supplied by build.py as a compiler option
 
@@ -25,7 +22,7 @@ int main(int argc, char* argv[]) {
                   "square_rave_weight", "include_rave_count_for_exploration";
 
     if (argc == 2 && (std::string(argv[1]) == "--help")) {
-        std::cout << "Ryanbot " << build_id << "\n";
+        std::cout << "Ryanbot\n";
         std::cout << "Options: " << ALLOPTS << "\n";
 
         std::cout << "Command-line options accepted (prefix with -):";

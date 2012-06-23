@@ -1,4 +1,48 @@
+Go-playing program
+==================
+
+Copyright (C) 2009-2012 Ryan Lothian.
+
+
+License: GPL3
+-------------
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ 
+Prerequisites
+--------------
+Make sure you have python and libboost-all-dev installed. Some tests also require gnugo.
+
+
+Build
+-----
+To build all tests and the AI itself:
+
+    $ python build.py > build_log
+
+
+How to play against the AI
+--------------------------
+I recommend you use a GUI that supports GTP, such as GoGTP, and connect it to bin/go_gtp.
+
+
+Feedback
+--------
+Please e-mail go <at> ryanlothian.com.
+
+Thanks!
+
 License:       GPL3
 
-Prerequisites: boost
 
